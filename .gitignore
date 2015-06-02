@@ -1,5 +1,6 @@
 .cov
 coverage
+config.js
 dump.rdb    
 node_modules
 .naeindex
