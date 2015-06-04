@@ -3,4 +3,5 @@ exports.Message = require('./message');
 exports.Topic = require('./topic');
 exports.Reply = require('./reply');
 exports.Thumb = require('./thumb');
+exports.Thumbtags = require('./thumbtags');
 exports.TopicCollect = require('./topic_collect');

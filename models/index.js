@@ -15,6 +15,7 @@ require('./reply');
 require('./topic_collect');
 require('./message');
 require('./thumb');
+require('./thumbtags');
 
 exports.User = mongoose.model('User');
 exports.Topic = mongoose.model('Topic');
@@ -22,3 +23,4 @@ exports.Reply = mongoose.model('Reply');
 exports.Message = mongoose.model('Message');
 exports.TopicCollect = mongoose.model('TopicCollect');
 exports.Thumb = mongoose.model('Thumb');
+exports.Thumbtags = mongoose.model('Thumbtags');
