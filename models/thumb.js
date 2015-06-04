@@ -12,6 +12,7 @@ var ThumbSchema = new Schema({
   group : {type:String}, //分组
   group_desc : {type:String}, //分组信息
   hits : {type:Number,default:0}, //点击量
+  path : {type:String},
   create_at: { type: Date, default: Date.now }
 });
 ThumbSchema.index({create_at: -1});

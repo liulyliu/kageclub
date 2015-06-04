@@ -21,6 +21,7 @@ var auth = require('./middlewares/auth');
 var limit = require('./middlewares/limit');
 var github = require('./controllers/github');
 var search = require('./controllers/search');
+var thumb = require('./controllers/thumb');
 var passport = require('passport');
 var configMiddleware = require('./middlewares/conf');
 var config = require('./config');
@@ -115,5 +116,6 @@ router.get('/auth/github/new', github.new);
 router.post('/auth/github/create', github.create);
 
 router.get('/search', search.index);
-
+router.get('/thumbs',thumb.index);
+router.get('/thumbs/:name',thumb.img);
 module.exports = router;

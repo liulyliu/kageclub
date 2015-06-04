@@ -36,6 +36,7 @@ var limitMiddleware = require('./middlewares/limit');
 
 // 静态文件目录
 var staticDir = path.join(__dirname, 'public');
+var thumbStatic = path.join(__dirname, 'thumb');
 
 // assets
 var assets = {};
@@ -65,6 +66,7 @@ app.enable('trust proxy');
 app.use(Loader.less(__dirname));
 app.use('/public', express.static(staticDir));
 app.use('/agent', proxyMiddleware.proxy);
+app.use('/thumb/',express.static(thumbStatic));
 
 // 每日访问限制
 // app.use(limitMiddleware.peripperday('all', config.visit_per_day));

@@ -88,11 +88,12 @@ function go(site, path, key) {
                             Thumb.newAndSave({
                                 source: url,
                                 name: name,
-                                url: '/thumb/' + name + ext,
+                                url: '/thumbs/' + name + ext,
                                 //url2: '/thumb/' + name + ext,
                                 title: info.title,
                                 tags: _re(info.tags),
                                 group: info.group,
+                                path : path,
                                 group_desc: info.group
 
                             }, function(err) {

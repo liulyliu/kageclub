@@ -46,4 +46,4 @@ exports.sources = [{
 }];
 
 
-exports.keys = ['初音', 'miku', 'hatsune', '初音未来','colsplay','col','动漫'];
+exports.keys = ['初音', 'miku', 'hatsune', '初音未来','colsplay'];

@@ -6,10 +6,10 @@ node_modules
 .naeindex
 coverage.html
 .monitor
-thumb/*.jpg
-thumb/*.png
-thumb/*.gif
-thumb/*.jpeg
+thumb/*/*.jpg
+thumb/*/*.png
+thumb/*/*.gif
+thumb/*/*.jpeg
 *.min.*.js
 *.min.*.css
 assets.json
