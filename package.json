@@ -4,7 +4,7 @@
   "private": true,
   "main": "app.js",
   "description": "A Node.js bbs using MongoDB",
-  "repository": "https://github.com/cnodejs/nodeclub",
+  "repository": "https://github.com/liulyliu/kageclub",
   "customHost": [
     "cnodejs.org",
     "club.cnodejs.org"
@@ -52,7 +52,8 @@
     "utility": "1.0.0",
     "validator": "3.22.1",
     "xmlbuilder": "2.5.0",
-    "xss": "0.1.15"
+    "xss": "0.1.15",
+    "url":"*"
   },
   "devDependencies": {
     "coveralls": "2.11.2",

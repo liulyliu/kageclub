@@ -6,7 +6,7 @@ node_modules
 .naeindex
 coverage.html
 .monitor
-
+thumb/
 *.min.*.js
 *.min.*.css
 assets.json
