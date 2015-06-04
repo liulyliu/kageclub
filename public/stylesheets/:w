@@ -8,19 +8,23 @@
 
 
 @body : #fafafa;
-@bar1 : #35c0cd;
-@bar2 : #35c0cd;
-@bar3 : @gray2;
+@bar1 : @node_black;
+@bar2 : @node_black;
 @font1 :#333333;
 @font2 : #ffffff;
 @font3 : #888888;
-@font4 : #5ec4cd;
-@font5 : #028e9b;
 @highlight : #ffffff;
-@btn1 : #1e6d74; 
-@btn2 : #015c65;
+@pre1 : #028e9b;
+@pre2 : #1e6d74; 
+@pre3 : #5ec4cd;
+@pre4 : #015c65;
+@pre5 : #35c0cd;
 
+//@bar1 : @pre3;
 
+@font4 : @pre3;
+
+@font5 : @pre1;
 
 /* base */
 body {
@@ -57,11 +61,7 @@ body {
   margin-bottom: 20px;
 }
 
-#content .panel .header{
-    background-color : @bar3;
-    > .col_fade {
-        color : @font3;
-    }
+#content .panel {
 }
 
 #content .topic_full_title {
@@ -167,22 +167,20 @@ a.dark {
   overflow: hidden;
   text-overflow: ellipsis;
   text-decoration: none;
-  color: @font3;
+  color: @font2;
 }
 
 a.dark:link, a.dark:visited, a.dark:active {
-  color: @font3;
+  color: @font2;
   text-decoration: none;
 }
 
 a.dark:hover {
-  color: @font3;
+  color: @font2;
 }
-a.reply_time {
-    color:@font3;
-}
+
 a.light:link, a.light:visited, a.light:active {
-  color: @font3;
+  color: @font2;
   text-decoration: none;
 }
 
@@ -1151,10 +1149,10 @@ textarea.editor {
 .span-success {
   .span-common();
 
-  color: @font2;
-  background-color: @btn1;
+  color: white;
+  background-color: @bar2;
   &:hover {
-    background-color: @btn2;
+    background-color: @bar1;
   }
 }
 
@@ -1162,9 +1160,9 @@ textarea.editor {
   .span-common();
 
   color: white;
-  background-color: @btn1;
+  background-color: #08c;
   &:hover {
-    background-color: @btn2;
+    background-color: #05c;
   }
 }
 
@@ -1187,7 +1185,7 @@ textarea.editor {
 
 .topic-tab {
   margin: 0 10px;
-  color: @font3;
+  color: @font2;
   &.current-tab {
     background-color: @bar2;
     color: @font2;
