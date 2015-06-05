@@ -17,10 +17,6 @@ exports.img = function(req,res,next){
         if(thumb) {
             var locale = 'http://' + config.host;
             var pname = thumb.source.split('\/');
-            if(config.port != 80) {
-                locale += (':' + config.port);
-            }
-
             request.get(locale + '/thumb/' + thumb.path + pname[pname.length-1])
             .on('response', function (response) {
               res.set(response.headers);

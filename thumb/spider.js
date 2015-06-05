@@ -88,7 +88,7 @@ function go(site, path, key) {
                             Thumb.newAndSave({
                                 source: url,
                                 name: name,
-                                url: '/thumbs/' + name + ext,
+                                url: '/thumbs/' + name,
                                 //url2: '/thumb/' + name + ext,
                                 title: info.title,
                                 tags: _re(info.tags),
