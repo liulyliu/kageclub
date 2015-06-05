@@ -1,7 +1,10 @@
 var models = require('../models');
 var Thumb = models.Thumb;
 var utility = require('utility');
-var uuid = require('node-uuid');
+
+
+
+
 exports.getOne = function (obj,callback) {
     Thumb.findOne(obj, callback);
 }
@@ -9,6 +12,8 @@ exports.getOne = function (obj,callback) {
 exports.get = function(obj,callback){
     Thumb.find(obj, callback);
 }
+
+
 exports.newAndSave = function (data,callback) {
   var thumb = new Thumb();
   thumb.name = utility.md5(data.url);

@@ -118,4 +118,5 @@ router.post('/auth/github/create', github.create);
 router.get('/search', search.index);
 router.get('/thumbs',thumb.index);
 router.get('/thumbs/:name',thumb.img);
+router.get('/thumbs/w240/:name',thumb.img240);
 module.exports = router;

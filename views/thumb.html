@@ -8,9 +8,13 @@
     </div>
   </div>
     <div class="inner">
-    <ul>
-    <%for(var i = 0; i<200; i++) {%>
-        <li style="width:200px;float:left;margin-left:10px;list-style:none"> <img src="<%- thumbs[i].url -%>"></li>
+    <ul class="thumbs">
+    <%for(var i = 0; i<thumbs.length; i++) {%>
+    <li> 
+    <a href="<%- thumbs[i].url -%>" target="_blank"><img src="<%- thumbs[i].url2 -%>" title="<%- thumbs[i].group -%>--<%- thumbs[i].title -%>"></a>
+    <span class="thumb-title"> <%- thumbs[i].title -%></span>
+    <span class="thumb-hits">点击[<%- thumbs[i].hits -%>]</span>
+    </li>
     <%}%>
     </ul>
     </div>
