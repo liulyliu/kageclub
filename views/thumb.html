@@ -1,5 +1,19 @@
-<%for(var i = 0; i<10; i++) {%>
-<img src="<%- thumbs[i].url -%>">
+
+<%- partial('sidebar') %>
+
+<div id="content">
+  <div class="panel">
+    <div class="header">
+        <a>图库</a>
+    </div>
+  </div>
+    <div class="inner">
+    <ul>
+    <%for(var i = 0; i<200; i++) {%>
+        <li style="width:200px;float:left;margin-left:10px;list-style:none"> <img src="<%- thumbs[i].url -%>"></li>
+    <%}%>
+    </ul>
+    </div>
+</div>
 
 
-<%}%>
