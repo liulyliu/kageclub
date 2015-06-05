@@ -119,33 +119,38 @@
             }
 
         }
-        
 
-        function onAllLoad(cb){
-           var images = container.getElementsByTagName('img');
-           var len = images.length -1;
-            var curr = 0;
-           for(var img =0;  img<images.length;img++) {
+
+        function onAllLoad(cb) {
+            var images = container.getElementsByTagName('img');
+            var len = images.length - 1;
+            var curr = 0
+            var _this = this;
+            for (var img = 0; img < images.length; img++) {
                 var imag = images[img];
-                if(imag.width >0 || imag.height >0) {
+                if (imag.width > 0 || imag.height > 0) {
                     curr++;
-                    if(curr == len) {
-                       cb.call(this); 
+                    if (curr == len) {
+                        window.setTimeout(function() {
+                            cb.call(_this);
+                        }, 200);
                     }
                 }
-                imag.onload = imag.onerror = function(){
-                   curr++; 
-                    if(curr == len) {
-                       cb.call(this); 
+                imag.onload = imag.onerror = function() {
+                    curr++;
+                    if (curr == len) {
+                        window.setTimeout(function() {
+                            cb.call(_this);
+                        }, 200);
                     }
                 }
-           }
-        
+            }
+
         }
 
 
         function initItems() {
-            onAllLoad.call(this,function() {
+            onAllLoad.call(this, function() {
                 columnsData = getColumnsData();
                 var cloneItems = items.concat([]);
                 var itemStyles = [];

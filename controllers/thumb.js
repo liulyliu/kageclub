@@ -35,7 +35,7 @@ function getArrsFromArr(arr,num) {
 exports.index = function(req, res, next) {
     Thumb.get({}, function(err, thumbs) {
         
-        var result = getArrsFromArr(thumbs,20);
+        var result = getArrsFromArr(thumbs,30);
         res.render('thumb', {
             thumbs: result
         });
