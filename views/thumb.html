@@ -8,7 +8,7 @@
     </div>
   </div>
     <div class="inner">
-    <ul class="thumbs">
+    <ul class="thumbs" id="stream-list">
     <%for(var i = 0; i<thumbs.length; i++) {%>
     <li> 
     <a href="<%- thumbs[i].url -%>" target="_blank"><img src="<%- thumbs[i].url2 -%>" title="<%- thumbs[i].group -%>--<%- thumbs[i].title -%>"></a>
@@ -19,5 +19,4 @@
     </ul>
     </div>
 </div>
-
-
+<script src='/public/javascripts/stream.js' ></script>

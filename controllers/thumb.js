@@ -6,10 +6,38 @@ var request = require('request');
 var locale = 'http://' + config.host;
 
 
+function getArrsFromArr(arr,num) {
+    if(arr.length <= num) {
+        return arr;
+    }
+    var numObj = {};
+    var res = [];
+    for(var i=0; i<num; i++) {
+        var k = getRandom();
+        res.push(arr[k]); 
+    }
+
+    function getRandom() {
+       var random = parseInt(Math.random() * (arr.length - 1));
+       if(numObj[random]) {
+            return getRandom();
+       } else {
+        numObj[random] = 1;
+        return random;
+       }
+    }
+
+    return res;
+
+}
+
+
 exports.index = function(req, res, next) {
     Thumb.get({}, function(err, thumbs) {
+        
+        var result = getArrsFromArr(thumbs,20);
         res.render('thumb', {
-            thumbs: thumbs
+            thumbs: result
         });
     });
 }
