@@ -55,6 +55,9 @@ function _re(arr) {
 }
 
 function go(site, path, key) {
+    if(site.noKey) {
+        key = undefined;
+    }
     function getSource(idx) {
         var url = site.url.replace('{page}', idx).replace('{key}', key);
         console.log('get key:' + key + ' start');
@@ -71,31 +74,37 @@ function go(site, path, key) {
                         source: url
                     }, function(err, thumb) {
                         if (err || thumb) {
-                            thumb.tags = _re(thumb.tags.push(key));
+                            if(key) {
+                                thumb.tags.push(key)
+                            }
+                            thumb.tags = _re(thumb.tags);
                             thumb.save(function() {
                                 callback && callback();
                             });
                         } else {
-                            var pname = url.split('\/');
-                            var file = path + pname[pname.length - 1];
+                            var pname = utility.md5(url);
+                            var file = path + pname + ext;
                             files.push(file);
                             var dstfile = file.replace(/([a-f0-9]+\.(jpg|gif|png|jpeg)$)/, '240_$1');
                             var p = fss.createWriteStream(file);
                             p.on('close', function() {
                                 info.tags = info.tags || [];
-                                info.tags.push(key);
-                                Thumbtags.getOne({
-                                    tag: key
-                                }, function(err, tag) {
-                                    if (!err && !tag) {
-                                        Thumbtags.newAndSave({
-                                            tag: key
-                                        });
-                                    } else {
+                                if(key) {
+                                    info.tags.push(key);
+                                    Thumbtags.getOne({
+                                        tag: key
+                                    }, function(err, tag) {
+                                        if (!err && !tag) {
+                                            Thumbtags.newAndSave({
+                                                tag: key
+                                            });
+                                        } else {
 
-                                    }
+                                        }
 
-                                });
+                                    });
+                                }
+                                
 
                                 Thumb.newAndSave({
                                     source: url,
@@ -152,6 +161,12 @@ function go(site, path, key) {
                 }
                 get.exit = function(id) {
                     var site = getSourceById(id);
+                    if(site.noKey) {
+                        console.log('totle :' + files.length + '\n');
+                        console.info('finished');
+                        pro.exit();
+                        return;
+                    }
                     var key = sitemap.keys[++currs[site.id]];
                     if (key) {
                         go(site, './' + site.host + '/', key);

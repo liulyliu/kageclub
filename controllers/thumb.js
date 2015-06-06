@@ -48,8 +48,8 @@ exports.img240 = function(req, res, next) {
         url: '/thumbs/' + name
     }, function(err, thumb) {
         if (thumb) {
-            var pname = thumb.source.split('\/');
-            request.get(locale + '/thumb/' + thumb.path + '240_'+pname[pname.length - 1])
+            var pname = thumb.source.split('.');
+            request.get(locale + '/thumb/' + thumb.path + '240_'+name + '.' + pname[pname.length-1])
                 .on('response', function(response) {
                     res.set(response.headers);
                 })
@@ -68,8 +68,8 @@ exports.img = function(req, res, next) {
         url: '/thumbs/' + name
     }, function(err, thumb) {
         if (thumb) {
-            var pname = thumb.source.split('\/');
-            request.get(locale + '/thumb/' + thumb.path + pname[pname.length - 1])
+            var pname = thumb.source.split('.');
+            request.get(locale + '/thumb/' + thumb.path + name +  '.' + pname[pname.length-1])
                 .on('response', function(response) {
                     thumb.hits++;
                     thumb.save();

@@ -20,6 +20,7 @@ exports.newAndSave = function (data,callback) {
   thumb.title = data.title || '';
   thumb.url = data.url;
   thumb.url2 = data.url2 || data.url;
+  console.info(data.tags.length,'tags length')
   thumb.tags = data.tags || [];
   thumb.source = data.source;
   thumb.path = data.path || './';
