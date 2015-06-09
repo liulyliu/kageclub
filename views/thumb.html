@@ -9,14 +9,15 @@
   </div>
     <div class="inner">
     <ul class="thumbs" id="stream-list">
-    <%for(var i = 0; i<thumbs.length; i++) {%>
-    <li> 
-    <a href="<%- thumbs[i].url -%>" target="_blank"><img src="<%- thumbs[i].url2 -%>" title="<%- thumbs[i].group -%>--<%- thumbs[i].title -%>"></a>
-    <span class="thumb-title"> <%- thumbs[i].title -%></span>
-    <span class="thumb-hits">点击[<%- thumbs[i].hits -%>]</span>
-    </li>
-    <%}%>
     </ul>
     </div>
 </div>
+
+<script src='/public/javascripts/jquery.masonry.min.js' ></script>
+<script src='/public/javascripts/jquery.infinitescroll.js' ></script>
 <script src='/public/javascripts/stream.js' ></script>
+
+<script>
+    
+
+</script>

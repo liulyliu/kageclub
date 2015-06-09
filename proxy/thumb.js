@@ -9,8 +9,17 @@ exports.getOne = function (obj,callback) {
     Thumb.findOne(obj, callback);
 }
 
+exports.getWithRange = function(obj,range,callback){
+    Thumb.find(obj).skip(range[0]).limit(range[1]).exec(callback);
+}
+
 exports.get = function(obj,callback){
     Thumb.find(obj, callback);
+}
+
+exports.getByKey = function(key,callback){
+    var reg = new RegExp(key);
+    Thumb.find({$or:[{group : reg},{group_desc:reg},{title:reg},{ tags:{$all:[key]}}]},callback);
 }
 
 

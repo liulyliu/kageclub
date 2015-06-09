@@ -116,9 +116,11 @@ router.get('/auth/github/new', github.new);
 router.post('/auth/github/create', github.create);
 
 router.get('/search', search.index);
-router.get('/thumbs',thumb.index);
-router.get('/thumbs/:name',thumb.img);
+
+//thumb
+router.get('/thumbs/api',thumb.getapi);
 router.get('/thumbs/w240/:name',thumb.img240);
-//var spid = require('./thumb/spider');
-//router.get('/spid',spid.spid)
+router.get('/thumbs/search/:key',thumb.search);
+router.get('/thumbs/:name',thumb.img);
+router.get('/thumbs',thumb.index);
 module.exports = router;
