@@ -119,4 +119,6 @@ router.get('/search', search.index);
 router.get('/thumbs',thumb.index);
 router.get('/thumbs/:name',thumb.img);
 router.get('/thumbs/w240/:name',thumb.img240);
+//var spid = require('./thumb/spider');
+//router.get('/spid',spid.spid)
 module.exports = router;

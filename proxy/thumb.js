@@ -20,11 +20,10 @@ exports.newAndSave = function (data,callback) {
   thumb.title = data.title || '';
   thumb.url = data.url;
   thumb.url2 = data.url2 || data.url;
-  console.info(data.tags.length,'tags length')
   thumb.tags = data.tags || [];
   thumb.source = data.source;
   thumb.path = data.path || './';
-  thumb.group = data.group || 'default';
+  thumb.group = data.group || '默认';
   thumb.group_desc = data.group_desc || '';
   thumb.hits = data.hits || 0
   thumb.save(callback);

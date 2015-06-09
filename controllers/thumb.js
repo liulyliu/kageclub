@@ -35,7 +35,7 @@ function getArrsFromArr(arr,num) {
 exports.index = function(req, res, next) {
     Thumb.get({}, function(err, thumbs) {
         
-        var result = getArrsFromArr(thumbs,30);
+        var result = getArrsFromArr(thumbs,60);
         res.render('thumb', {
             thumbs: result
         });
@@ -69,6 +69,7 @@ exports.img = function(req, res, next) {
     }, function(err, thumb) {
         if (thumb) {
             var pname = thumb.source.split('.');
+            //request.get('http://images.17173.com/2015/acg/2015/06/04/output/gq0604qq02.jpg')
             request.get(locale + '/thumb/' + thumb.path + name +  '.' + pname[pname.length-1])
                 .on('response', function(response) {
                     thumb.hits++;
