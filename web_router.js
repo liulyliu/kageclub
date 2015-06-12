@@ -22,6 +22,7 @@ var limit = require('./middlewares/limit');
 var github = require('./controllers/github');
 var search = require('./controllers/search');
 var thumb = require('./controllers/thumb');
+//var sns = require('./sns/oauth2callback');
 var passport = require('passport');
 var configMiddleware = require('./middlewares/conf');
 var config = require('./config');
@@ -97,6 +98,10 @@ router.post('/reply/:reply_id/delete', auth.userRequired, reply.delete); // 删�
 router.post('/reply/:reply_id/up', auth.userRequired, reply.up); // 为评论点赞
 router.post('/upload', auth.userRequired, topic.upload); //上传图片
 
+
+//sns
+//router.get('/oauth2callback',sns.oauth2callback);
+
 // static
 router.get('/about', staticController.about);
 router.get('/faq', staticController.faq);
@@ -123,4 +128,6 @@ router.get('/thumbs/w240/:name',thumb.img240);
 router.get('/thumbs/search/:key',thumb.search);
 router.get('/thumbs/:name',thumb.img);
 router.get('/thumbs',thumb.index);
+
+
 module.exports = router;

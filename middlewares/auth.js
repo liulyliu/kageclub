@@ -35,7 +35,7 @@ exports.blockUser = function () {
       return next();
     }
     if (req.session.user && req.session.user.is_block && req.method !== 'GET') {
-      return res.status(403).send('您已被管理员屏蔽了。有疑问请联系 @alsotang。');
+      return res.status(403).send('您已被管理员屏蔽了。有疑问请联系 @myluluy。');
     }
     next();
   };

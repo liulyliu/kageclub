@@ -39,7 +39,7 @@ var UserSchema = new Schema({
   retrieve_time: {type: Number},
   retrieve_key: {type: String},
 
-  accessToken: {type: String},
+  accessToken: {type: String}
 });
 
 UserSchema.virtual('avatar_url').get(function () {
