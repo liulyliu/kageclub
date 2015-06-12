@@ -26,3 +26,7 @@ exports.bhash = function (str, callback) {
 exports.bcompare = function (str, hash, callback) {
   bcrypt.compare(str, hash, callback);
 };
+
+exports.inArray = function(obj,array){
+    return array.indexOf(obj) >=0;
+}

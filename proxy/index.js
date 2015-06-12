@@ -4,4 +4,6 @@ exports.Topic = require('./topic');
 exports.Reply = require('./reply');
 exports.Thumb = require('./thumb');
 exports.Thumbtags = require('./thumbtags');
+exports.Blog = require('./blog');
+//exports.BlogCate = require('./blog_cate');
 exports.TopicCollect = require('./topic_collect');

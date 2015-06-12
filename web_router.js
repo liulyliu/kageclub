@@ -22,6 +22,7 @@ var limit = require('./middlewares/limit');
 var github = require('./controllers/github');
 var search = require('./controllers/search');
 var thumb = require('./controllers/thumb');
+var blog = require('./controllers/blog');
 //var sns = require('./sns/oauth2callback');
 var passport = require('passport');
 var configMiddleware = require('./middlewares/conf');
@@ -128,6 +129,9 @@ router.get('/thumbs/w240/:name',thumb.img240);
 router.get('/thumbs/search/:key',thumb.search);
 router.get('/thumbs/:name',thumb.img);
 router.get('/thumbs',thumb.index);
+
+router.get('/blog',blog.index);
+router.post('/blog/create', auth.userRequired,  blog.put);
 
 
 module.exports = router;
