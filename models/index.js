@@ -18,6 +18,7 @@ require('./thumb');
 require('./thumbtags');
 require('./blog');
 require('./blog_cate');
+require('./blog_users');
 
 exports.User = mongoose.model('User');
 exports.Topic = mongoose.model('Topic');
@@ -28,3 +29,4 @@ exports.Thumb = mongoose.model('Thumb');
 exports.Thumbtags = mongoose.model('Thumbtags');
 exports.Blog = mongoose.model('Blog');
 exports.BlogCate = mongoose.model('BlogCate');
+exports.BlogUsers = mongoose.model('BlogUsers');

@@ -130,8 +130,12 @@ router.get('/thumbs/search/:key',thumb.search);
 router.get('/thumbs/:name',thumb.img);
 router.get('/thumbs',thumb.index);
 
-router.get('/blog',blog.index);
-router.post('/blog/create', auth.userRequired,  blog.put);
+router.get('/blog/active',blog.authAlive,blog.authAdmin,blog.active);
+router.post('/blog/active',blog.authAlive,blog.authAdmin,blog.putActive);
+router.get('/blog/create',blog.authAlive,blog.authAdmin,auth.userRequired,blog.auth,blog.create);
+router.post('/blog/create',blog.authAlive,blog.authAdmin, auth.userRequired,blog.auth,blog.put);
+
+router.get('/blog',blog.authAlive,blog.index);
 
 
 module.exports = router;
