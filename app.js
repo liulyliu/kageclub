@@ -33,6 +33,7 @@ var busboy = require('connect-busboy');
 var errorhandler = require('errorhandler');
 var cors = require('cors');
 var limitMiddleware = require('./middlewares/limit');
+var blog = require('./blog/control').blog;
 
 // 静态文件目录
 var staticDir = path.join(__dirname, 'public');
@@ -125,15 +126,6 @@ app.use(function (req, res, next) {
   next();
 });
 
-// github oauth
-passport.serializeUser(function (user, done) {
-  done(null, user);
-});
-passport.deserializeUser(function (user, done) {
-  done(null, user);
-});
-passport.use(new GitHubStrategy(config.GITHUB_OAUTH, githubStrategyMiddleware));
-
 app.use(busboy({
   limits: {
     fileSize: 10 * 1024 * 1024 // 10MB
@@ -142,6 +134,10 @@ app.use(busboy({
 
 // routes
 app.use('/api/v1', cors(), apiRouterV1);
+app.use('/blog',function(req,res,next){
+    req.blog = blog;    
+    next();
+});
 app.use('/', webRouter);
 
 // error handler
@@ -155,9 +151,7 @@ if (config.debug) {
 }
 
 app.listen(config.port, function () {
-  console.log("NodeClub listening on port %d", config.port);
-  console.log("God bless love....");
-  console.log("You can debug your app with http://" + config.hostname + ':' + config.port);
+  console.log("listening on port %d", config.port);
 });
 
 

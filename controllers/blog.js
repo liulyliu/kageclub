@@ -1,90 +1,65 @@
 var User = require('../proxy').User;
 var config = require('../config');
-var blog = require('./BlogController').blog;
 
-
-exports.authAlive = function(req,res,next){
-    if(blog.config.active !== true) {
-       return res.render('notify/notify', {error: blog.config.msg || '管理员没有开启'+blog.config.blogName + '功能。'});
+exports.active = function(req, res, next) {
+    var blog = req.blog;
+    var visitor = blog.getVisitor();
+    if (!visitor.is_admin && config.blog.adminOnly) {
+        return res.status(403).render('notify/notify', {
+            error: '您暂时没有权限请求该资源，请联系管理员'
+        });
     }
-    
-    
-    next()
-}
-
-exports.authAdmin = function(req,res,next){
-    if(blog.config.adminOnly === true && (!req.session.user || !req.session.user.is_admin)) {
-       return res.render('notify/notify', {error :'对不起，'+blog.config.blogName + '功能并没有向所有用户开放。'});
+    if (!visitor.blogUser || visitor.blogUser.blogstat == -1) {
+        res.render('blog/active', {
+            blogName: blog.config.blogName
+        });
+    } else {
+        res.redirect('/blog')
     }
-    next();
-}
-
-exports.auth = function(req,res,next){
-    blog.setBlogMaster(req.session.user);
-    blog.setVisiter(req.session.user);
-    blog.getBlogUser(function(err,blogUser){
-        if(err) {
-            return res.status(500).send('系统错误!') 
-        } 
-        if(!blogUser) {
-            res.redirect('/blog/active');
-        }  else {
-            next();
-        }
-    })
 
 }
 
-exports.active = function(req,res,next){
-    blog.setBlogMaster(req.session.user);
-    blog.setVisiter(req.session.user);
-    blog.getBlogUser(function(err,blogUser){
-        if(err) {
-            return res.status(500).send('系统错误!') 
-        } 
-        if(!blogUser) {
-            res.render('blog/active',{blogName : blog.config.blogName});
-        }  else {
-            next();
-        }
+
+exports.putActive = function(req, res, next) {
+    var body = req.body,
+        blog = req.blog;
+    return res.status(403).render('notify/notify', {
+        error: '您暂时没有权限请求该资源，请联系管理员'
     });
-}
-
-exports.putActive = function(req,res,next){
-    blog.setBlogMaster(req.session.user);
-    blog.setVisiter(req.session.user);
-    var body = req.body;
-    console.info(body);
     blog.putActive({
-    },function(){
-       console.info('active') 
+        blogname: body.blog_name
+    }, function(err) {
+        if (err) {
+            return res.render('notify/notify', {
+                error: '开通失败了'
+            })
+        } else {
+            res.redirect('/blog');
+        }
     })
 }
 
 
 
 exports.index = function(req, res, next) {
-    res.render('blog/index', {});
+    var blogMaster = req.blog.getBlogMaster();
+    res.render('blog/index', {
+        user: req.blog.getVisitor(),
+        blogMaster: blogMaster,
+        blog: blogMaster.blogUser
+    });
 }
 
 
-exports.create = function(req,res,next){
-    blog.setBlogMaster(req.session.user);
-    blog.setVisiter(req.session.user);
-    if(blog.hasBlog()) {
-        blog.getCateList(function(err,cates){
-            res.render('blog/edit', {
-                cates : cates
-            });
-        },true);
-    } else {
-        res.render('notify/notify', {error: '您并没有开通博客，请联系管理员!' });
-    }
+exports.create = function(req, res, next) {
+    req.blog.getCateList(function(err, cates) {
+        res.render('blog/edit', {
+            cates: cates
+        });
+    }, true);
 }
 
 exports.put = function(req, res, next) {
-    blog.setBlogMaster(req.session.user);
-    blog.setVisiter(req.session.user);
     var body = req.body;
     blog.create({
         title: body.title,

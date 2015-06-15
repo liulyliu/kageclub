@@ -6,8 +6,7 @@
   "description": "A Node.js bbs using MongoDB",
   "repository": "https://github.com/liulyliu/kageclub",
   "customHost": [
-    "cnodejs.org",
-    "club.cnodejs.org"
+    "cmiku.com"
   ],
   "engines": {
     "node": "0.12.x"

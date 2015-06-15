@@ -8,7 +8,7 @@ var BlogUsersSchema = new Schema({
     blogname: {
         type: String
     },
-    blogStat: {
+    blogstat: {
         type: Number,
         default: -1
     }, // -1:未开通,0:申请中，1:已开通，-2:被驳回 - 3: 被封禁
@@ -22,6 +22,10 @@ var BlogUsersSchema = new Schema({
     },
     update_at: {
         type: Date,
+        default: Date.now
+    },
+    laststat_at: {
+        type:Date,
         default: Date.now
     }
 });

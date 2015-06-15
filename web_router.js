@@ -18,6 +18,7 @@ var reply = require('./controllers/reply');
 var rss = require('./controllers/rss');
 var staticController  = require('./controllers/static');
 var auth = require('./middlewares/auth');
+var blogAuth = require('./middlewares/blog');
 var limit = require('./middlewares/limit');
 var github = require('./controllers/github');
 var search = require('./controllers/search');
@@ -41,8 +42,8 @@ router.get('/app/download', site.appDownload);
 if (config.allow_sign_up) {
   router.get('/signup', sign.showSignup);  // 跳转到注册页面
   router.post('/signup', sign.signup);  // 提交注册信息
-} else {
-  router.get('/signup', configMiddleware.github, passport.authenticate('github'));  // 进行github验证
+//} else {
+//  router.get('/signup', configMiddleware.github, passport.authenticate('github'));  // 进行github验证
 }
 router.post('/signout', sign.signout);  // 登出
 router.get('/signin', sign.showLogin);  // 进入登录页面
@@ -130,12 +131,14 @@ router.get('/thumbs/search/:key',thumb.search);
 router.get('/thumbs/:name',thumb.img);
 router.get('/thumbs',thumb.index);
 
-router.get('/blog/active',blog.authAlive,blog.authAdmin,blog.active);
-router.post('/blog/active',blog.authAlive,blog.authAdmin,blog.putActive);
-router.get('/blog/create',blog.authAlive,blog.authAdmin,auth.userRequired,blog.auth,blog.create);
-router.post('/blog/create',blog.authAlive,blog.authAdmin, auth.userRequired,blog.auth,blog.put);
+router.get('/blog/active',blogAuth.enableRequired,auth.userRequired,blog.active);
+router.post('/blog/active',blogAuth.enableRequired,auth.userRequired,blog.putActive);
+    //blog.auth判断当前登录用刻是否开通了个人博客
+router.get('/blog/create',blogAuth.enableRequired,auth.userRequired,blogAuth.authBlogStat,blog.create);
+router.post('/blog/create',blogAuth.enableRequired,auth.userRequired,blogAuth.authBlogStat,blog.put);
 
-router.get('/blog',blog.authAlive,blog.index);
+router.get('/blog/:blog_id',blogAuth.enableRequired,blogAuth.authBlogMaster,blog.index); //他人的博客
+router.get('/blog',blogAuth.enableRequired,auth.userRequired,blogAuth.authBlogStat,blog.index); //自己的博客
 
 
 module.exports = router;
