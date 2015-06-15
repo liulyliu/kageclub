@@ -1,16 +1,10 @@
 var validator = require('validator');
-
-var at = require('../common/at');
 var Blog = require('../proxy').Blog;
 var BlogCate = require('../proxy').BlogCate;
-var BlogUsers = require('../proxy').BlogUsers;
+var BlogArticle = require('../proxy').BlogArticle;
 var User = require('../proxy').User;
 var EventProxy = require('eventproxy');
-var tools = require('../common/tools');
-var store = require('../common/store');
 var config = require('../config');
-var _ = require('lodash');
-var cache = require('../common/cache');
 
 
 var ep = new EventProxy();
@@ -25,7 +19,6 @@ function BlogController(config) {
         maxCache: 1000
     };
 
-    //this.evt = EventProxy.create(['setBlogMaster', 'setList', 'actionBLog', ''], function() {});
     var _this = this;
     ep.on('setBlogMaster', function() {
         if (_this.__done) {
@@ -39,20 +32,20 @@ function BlogController(config) {
     this.setBlogMaster = function(newUser) {
         if (typeof newUser == 'string') {
             var blog_id = newUser;
-            var _this =this;
+            var _this = this;
             blogMaster = BlogController.staticMethods.cache[blog_id];
             if (blogMaster) {
                 ep.emit('setBlogMaster');
             } else {
-                BlogUsers.getBlogById(newUser, function(err, blogUser) {
+                Blog.getBlogById(newUser, function(err, blog) {
                     if (err) {
                         ep.emit('setBlogMaster', err);
                         return;
                     }
-                    if (blogUser) {
-                        User.getUserById(blogUser.author_id, function(err, user) {
+                    if (blog) {
+                        User.getUserById(blog.author_id, function(err, user) {
                             if (user) {
-                                user.blogUser = blogUser;
+                                user.blog = blog;
                                 BlogController.staticMethods.cache[blog_id] = user;
                                 BlogController.staticMethods.currCache.push(blog_id);
                                 if (_this.config.maxCache < BlogController.staticMethods.currCache.length) {
@@ -72,11 +65,25 @@ function BlogController(config) {
             };
         } else {
             blogMaster = newUser;
-            ep.emit('setBlogMaster');
+            if (blogMaster.blog === undefined) {
+                blog.getBlogByUserId(blogMaster._id, function(err, blog) {
+                    if (err) {
+                        ep.emit('setBlogMaster', err);
+                        return;
+                    } else {
+                        blogMaster.blog = blog;
+                        ep.emit('setBlogMaster', err);
+                    }
+                });
+            } else {
+                ep.emit('setBlogMaster');
+            }
+
         }
     }
+
     this.setVisiter = function(newUser) {
-            visitor = newUser;
+        visitor = newUser;
     };
 
     this.getVisitor = function() {
@@ -92,9 +99,6 @@ BlogController.staticMethods = {
     currCache: []
 };
 
-BlogController.prototype.init = function() {
-
-};
 
 BlogController.prototype.getCateList = function(callback, isVisitor) {
     var user = isVisitor ? this.getVisitor() : this.getBlogMaster(),
@@ -105,21 +109,15 @@ BlogController.prototype.getCateList = function(callback, isVisitor) {
 }
 
 
-BlogController.prototype.getBlogs = function(range, callback) { //获取博文
+BlogController.prototype.getArticles = function(range, callback) { //获取博文
     var range = range || [0, this.config.pageSize || 10];
     var _this = this;
     var blogMaster = this.getBlogMaster();
-    if (blogMaster) {
-        Blog.getWithRange({
-            author_id: blogMaster._id
-        }, range, function(err, blog) {
-            callback && callback.apply(_this, arguments)
-        });
-    } else {
-        callback && callback({
-            err: 'no master'
-        })
-    }
+    BlogArticle.getWithRange({
+        author_id: blogMaster._id
+    }, range, function(err, blogArticle) {
+        callback && callback.apply(_this, arguments)
+    });
 };
 
 BlogController.prototype.putActive = function(data, callback) { //激活接口
@@ -134,26 +132,25 @@ BlogController.prototype.putActive = function(data, callback) { //激活接口
         callback && callback.call(_this, error);
         return;
     }
-    this.getBlogUser(function(err, blogUser) {
-        var _this = this;
-        if (blogUser) {
-            blogUser.blogstat = 1;
-            blogUser.laststat_at = new Date();
-            blogUser.save(function(err) {
-                callback && callback.call(_this, err);
-            });
-        } else {
-            BlogUsers.newAndSave({
-                blogname: blogname,
-                author_id: author._id,
-                blogstat: 1
-            }, function(err) {
-                callback && callback.call(_this, err);
-            });
+    var _this = this,
+        blog = author.blog;
+    if (blog) {
+        blog.blogstat = 1;
+        blog.laststat_at = new Date();
+        blog.save(function(err) {
+            callback && callback.call(_this, err);
+        });
+    } else {
+        Blog.newAndSave({
+            blogname: blogname,
+            author_id: author._id,
+            blogstat: 1
+        }, function(err) {
+            callback && callback.call(_this, err);
+        });
 
 
-        }
-    });
+    }
 
 };
 
@@ -167,9 +164,7 @@ BlogController.prototype.create = function(data, callback) {
     var author = this.getVisitor();
     // 验证
     var editError;
-    if (!this.hasBlog()) {
-        editError = '帐号错误，请确认是否开通了' + this.config.name + '。';
-    } else if (title === '') {
+    if (title === '') {
         editError = '标题不能是空的。';
     } else if (title.length < 1 || title.length > 100) {
         editError = '标题字数太多或太少。';
@@ -177,11 +172,10 @@ BlogController.prototype.create = function(data, callback) {
         editError = '内容不可为空';
     }
     // END 验证
-
     if (editError) {
         callback && callback.call(_this, editError);
     } else {
-        Blog.newAndSave({
+        BlogArticle.newAndSave({
             title: title,
             tags: tags,
             content: content,

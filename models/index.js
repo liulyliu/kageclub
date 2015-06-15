@@ -18,7 +18,7 @@ require('./thumb');
 require('./thumbtags');
 require('./blog');
 require('./blog_cate');
-require('./blog_users');
+require('./blog_article');
 
 exports.User = mongoose.model('User');
 exports.Topic = mongoose.model('Topic');
@@ -28,5 +28,5 @@ exports.TopicCollect = mongoose.model('TopicCollect');
 exports.Thumb = mongoose.model('Thumb');
 exports.Thumbtags = mongoose.model('Thumbtags');
 exports.Blog = mongoose.model('Blog');
+exports.BlogArticle = mongoose.model('BlogArticle');
 exports.BlogCate = mongoose.model('BlogCate');
-exports.BlogUsers = mongoose.model('BlogUsers');

@@ -6,5 +6,5 @@ exports.Thumb = require('./thumb');
 exports.Thumbtags = require('./thumbtags');
 exports.Blog = require('./blog');
 exports.BlogCate = require('./blog_cate');
-exports.BlogUsers = require('./blog_users');
+exports.BlogArticle = require('./blog_article');
 exports.TopicCollect = require('./topic_collect');

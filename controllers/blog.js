@@ -4,7 +4,7 @@ var config = require('../config');
 exports.active = function(req, res, next) {
     var blog = req.blog;
     var visitor = blog.getVisitor();
-    if (!visitor.is_admin && config.blog.adminOnly) {
+    if (config.blog.adminOnly && !visitor.is_admin) {
         return res.status(403).render('notify/notify', {
             error: '您暂时没有权限请求该资源，请联系管理员'
         });
@@ -22,10 +22,12 @@ exports.active = function(req, res, next) {
 
 exports.putActive = function(req, res, next) {
     var body = req.body,
-        blog = req.blog;
-    return res.status(403).render('notify/notify', {
-        error: '您暂时没有权限请求该资源，请联系管理员'
-    });
+        blog = req.blog,visitor = blog.getVisitor();
+    if (config.blog.adminOnly && !visitor.is_admin) {
+        return res.status(403).render('notify/notify', {
+            error: '您暂时没有权限请求该资源，请联系管理员'
+        });
+    }
     blog.putActive({
         blogname: body.blog_name
     }, function(err) {
@@ -42,11 +44,15 @@ exports.putActive = function(req, res, next) {
 
 
 exports.index = function(req, res, next) {
+    var blog = req.blog;
     var blogMaster = req.blog.getBlogMaster();
-    res.render('blog/index', {
-        user: req.blog.getVisitor(),
-        blogMaster: blogMaster,
-        blog: blogMaster.blogUser
+    blog.getArticles([0, 10], function(err, blogList) {
+        res.render('blog/index', {
+            user: req.blog.getVisitor(),
+            blogMaster: blogMaster,
+            blog: blogMaster.blog,
+            blogList : blogList || {}
+        });
     });
 }
 
@@ -61,13 +67,14 @@ exports.create = function(req, res, next) {
 
 exports.put = function(req, res, next) {
     var body = req.body;
-    blog.create({
+
+    req.blog.create({
         title: body.title,
         content: body.content,
         theme: body.theme,
         tags: body.tags,
         cate_id: body.cate_id
-    }, function(err) {
+    }, function(err) {//TODO
         next(err);
     });
 }

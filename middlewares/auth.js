@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var UserModel = mongoose.model('User');
 var Message = require('../proxy').Message;
-var BlogUsers = require('../proxy').BlogUsers
+var Blog = require('../proxy').Blog
 var config = require('../config');
 var eventproxy = require('eventproxy');
 var UserProxy = require('../proxy').User;
@@ -50,8 +50,8 @@ exports.blockUser = function() {
 
 function gen_session(user, res) {
     var auth_token = user._id + '$$$$'; // 以后可能会存储更多信息，用 $$$$ 来分隔
-    if (user.blogUser) {
-        auth_token += user.blogUser._id + '$$$$' + user.blogUser.blogstat + '$$$$' + user.blogUser.blogname;
+    if (user.blog) {
+        auth_token += user.blog._id + '$$$$' + user.blog.blogstat + '$$$$' + user.blog.blogname;
     }
     res.cookie(config.auth_cookie_name, auth_token, {
         path: '/',
@@ -85,8 +85,8 @@ exports.authUser = function(req, res, next) {
         if (config.admins.hasOwnProperty(user.loginname)) {
             user.is_admin = true;
         }
-        blogUser = BlogUsers.getBlogUser(user._id, function(err, blogUser) {
-            user.blogUser = blogUser;
+        blog = Blog.getBlogByUserId(user._id, function(err, blog) {
+            user.blog = blog;
             Message.getMessagesCount(user._id, ep.done(function(count) {
                 user.messages_count = count;
                 next();

@@ -2,7 +2,7 @@ var validator = require('validator');
 var eventproxy = require('eventproxy');
 var config = require('../config');
 var User = require('../proxy').User;
-var BlogUsers = require('../proxy').BlogUsers
+var Blog = require('../proxy').Blog
 var mail = require('../common/mail');
 var tools = require('../common/tools');
 var utility = require('utility');
@@ -129,14 +129,14 @@ exports.login = function(req, res, next) {
         });
     }
 
-    var getUser, getBlogUser;
+    var getUser, getBlog;
     if (loginname.indexOf('@') !== -1) {
         getUser = User.getUserByMail;
     } else {
         getUser = User.getUserByLoginName;
     }
 
-    getBlogUser = BlogUsers.getBlogUser;
+    getBlog = Blog.getBlogByUserId;
 
     ep.on('login_error', function(login_error) {
         res.status(403);
@@ -166,7 +166,7 @@ exports.login = function(req, res, next) {
                 });
             }
             if (config.blog.enable) {
-                getBlogUser(user._id, function(err, blogUser) { //博客
+                getBlog(user._id, function(err, blogUser) { //博客
                     user.blogUser = blogUser;
                     // store session cookie
                     setSession();

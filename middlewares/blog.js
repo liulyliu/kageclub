@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-var BUModel = mongoose.model('BlogUsers');
 var config = require('../config')
 
 //验证是否启用博客功能
@@ -50,7 +49,7 @@ exports.authBlogStat = function(req, res, next) {
 exports.authBlogMaster = function(req, res, next) {
     var blogMaster = req.blog.getBlogMaster();
     if(!blogMaster) {
-       return res.status(404).send('not found page!'); 
+       return res.status(404).render('notify/notify',{error : '页面不存在！'});
     }
     var stat = getStat(blogMaster, req.blog);
     if (stat.code == 1) {
@@ -70,10 +69,10 @@ function getStat(blogUser, blog) {
     if (blog.config.adminOnly && !config.admins.hasOwnProperty(blogUser.loginname)) {
         code = -999
     } else {
-        if (!blogUser) {
+        if (!blogUser || !blogUser.blog) {
             code = -1;
         } else {
-            code = blogUser.blogUser.blogstat;
+            code = blogUser.blog.blogstat;
         }
     }
 

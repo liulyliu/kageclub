@@ -1,36 +1,21 @@
-var models = require('../models');
-var Blog = models.Blog;
+var Blog = require('../models').Blog;
 var utility = require('utility');
+exports.getBlogByUserId = function(author_id, callback) {
+    Blog.findOne({
+        author_id: author_id
+    }, callback);
+};
 
+exports.getBlogById = function(blog_id,callback) {
+    Blog.findOne({
+        _id : blog_id
+    },callback);
+};
 
-
-
-exports.getOne = function (obj,callback) {
-    Blog.findOne(obj, callback);
-}
-
-exports.getWithRange = function(obj,range,callback){
-    Blog.find(obj).skip(range[0]).limit(range[1]).exec(callback);
-}
-
-exports.get = function(obj,callback){
-    Blog.find(obj, callback);
-}
-
-exports.getByKey = function(key,callback){
-    var reg = new RegExp(key);
-    Blog.find({$or:[{title : reg},{content:reg},{ tags:{$all:[key]}}]},callback);
-}
-
-
-exports.newAndSave = function (data,callback) {
-  var blog = new Blog();
-  blog.title = data.title;
-  blog.content = data.content;
-  blog.author_id = data.author_id;
-  blog.tags  = data.tags || [];
-  blog.cate_id = data.cate_id;
-  blog.thumb = data.thumb || '';
-  blog.theme = data.theme || 'default'
-  blog.save(callback);
+exports.newAndSave = function(data, callback) {
+    var blog = new Blog();
+    blog.blogname = data.blogname;
+    blog.author_id = data.author_id;
+    blog.blogstat = data.blogstat;
+    blog.save(callback);
 };
