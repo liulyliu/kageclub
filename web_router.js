@@ -137,6 +137,7 @@ router.post('/blog/active',blogAuth.enableRequired,auth.userRequired,blog.putAct
 router.get('/blog/create',blogAuth.enableRequired,auth.userRequired,blogAuth.authBlogStat,blog.create);
 router.post('/blog/create',blogAuth.enableRequired,auth.userRequired,blogAuth.authBlogStat,blog.put);
 
+router.get('/blog/:blog_id/article/:article_id',blogAuth.enableRequired,blogAuth.authBlogMaster,blog.article); //他人的博客
 router.get('/blog/:blog_id',blogAuth.enableRequired,blogAuth.authBlogMaster,blog.index); //他人的博客
 router.get('/blog',blogAuth.enableRequired,auth.userRequired,blogAuth.authBlogStat,blog.index); //自己的博客
 

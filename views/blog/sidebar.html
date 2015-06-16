@@ -1,0 +1,109 @@
+<div id='sidebar'>
+  <div class='panel'>
+    <div class='header'>
+      <span class='col_fade'>博主信息</span>
+    </div>
+    <div class='inner'>
+      <div class='user_card'>
+          <div>
+            <a class='user_avatar' href="/user/<%= blogMaster.loginname %>">
+              <img src="<%= blogMaster.avatar_url %>" title="<%= blogMaster.loginname %>"/>
+            </a>
+            <span class='user_name'><a class='dark' href="/blog/<%= blog._id %>"><%= blogMaster.loginname%></a></span>
+
+            <div class='board clearfix'>
+              <div class='floor'>
+                <span class='big'>等级: <%= blog.bloglevel %> </span>
+              </div>
+             <div class='floor'>
+                <span class='big'>经验: <%= blog.blogscore %> </span>
+              </div>
+                <div class='floor'>
+                <span class='big'>访问量: <%= blog.visit %> </span>
+              </div>
+            </div>
+            <div class="space clearfix"></div>
+            <span class="signature">
+                “
+                <% if (user.signature) {%>
+                    <%-escapeSignature(user.signature)%>
+                <%} else {%>
+                    这家伙很懒，什么个性签名都没有留下。
+                <%}%>
+                ”
+            </span>
+          </div>
+        </div>
+    </div>
+  </div>
+
+    <% if (typeof(no_reply_topics) !== 'undefined') { %>
+  <div class='panel'>
+    <div class='header'>
+      <span class='col_fade'>无人回复的话题</span>
+    </div>
+    <div class='inner'>
+      <% if (no_reply_topics.length > 0) { %>
+      <ul class="unstyled">
+        <%- partial('topic/small', { collection: no_reply_topics, as: 'topic' }) %>
+      </ul>
+      <% } else { %>
+      <p>无</p>
+      <% } %>
+    </div>
+  </div>
+  <% } %>
+
+  <% if (typeof(tops) !== 'undefined') { %>
+  <div class='panel'>
+    <div class='header'>
+      <span class='col_fade'>积分榜</span>
+      &nbsp;
+      <a class='dark' href='/users/top100'>TOP 100 &gt;&gt;</a>
+    </div>
+    <div class='inner'>
+      <% if (tops.length > 0) { %>
+      <ol>
+        <%- partial('user/top', { collection: tops, as: 'user' }) %>
+      </ol>
+      <% } else { %>
+      <p>无</p>
+      <% } %>
+    </div>
+  </div>
+  <% } %>
+
+  <div class='panel'>
+    <div class='header'>
+      <span class='col_fade'>友情社区</span>
+    </div>
+    <div class='inner'>
+      <ol class="friendship-community">
+        <!--<li>
+          <a href="https://tuer.me/" target="_blank">
+                <span class="span10">兔耳日记</span>
+          </a>
+        </li>
+        <div class="sep10"></div>
+        <li>
+          <a href="http://golangtc.com/" target="_blank">
+            <img src="<%- staticFile('/public/images/golangtc-logo.png') %>">
+          </a>
+        </li>
+        <div class="sep10"></div>
+        <li>
+          <a href="http://phphub.org/" target="_blank">
+            <img src="<%- staticFile('/public/images/phphub-logo.png') %>">
+          </a>
+        </li>
+        <div class="sep10"></div>
+        <li>
+          <a href="http://cn.iojs.org/" target="_blank">
+            <img src="<%- staticFile('/public/images/iojs-logo-w150h50.png') %>">
+          </a>
+        </li>-->
+      </ol>
+    </div>
+  </div>
+
+</div>

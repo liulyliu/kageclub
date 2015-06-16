@@ -120,6 +120,12 @@ BlogController.prototype.getArticles = function(range, callback) { //获取博�
     });
 };
 
+
+BlogController.prototype.getArticleById = function(article_id,callback) {
+    var _this = this;
+    BlogArticle.getArticleById(article_id,callback);
+}
+
 BlogController.prototype.putActive = function(data, callback) { //激活接口
     var _this = this;
     var author = this.getVisitor();
@@ -181,8 +187,8 @@ BlogController.prototype.create = function(data, callback) {
             content: content,
             theme: theme,
             author_id: author._id
-        }, function(err) {
-            callback && callback.call(_this, err);
+        }, function(err,article) {
+            callback && callback.apply(_this, arguments);
         });
     }
 }

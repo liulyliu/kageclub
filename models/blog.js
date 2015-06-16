@@ -8,6 +8,9 @@ var BlogSchema = new Schema({
     blogname: {    //博客名称
         type: String
     },
+    blogsignature :{
+        type : String
+    },
     blogstat: { //博客状态
         type: Number,
         default: -1

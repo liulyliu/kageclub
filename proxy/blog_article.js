@@ -9,6 +9,11 @@ exports.getOne = function (obj,callback) {
     BlogArticle.findOne(obj, callback);
 }
 
+exports.getArticleById = function(article_id,callback){
+    return BlogArticle.findOne({_id : article_id},callback);
+}
+
+
 exports.getWithRange = function(obj,range,callback){
     BlogArticle.find(obj).skip(range[0]).limit(range[1]).exec(callback);
 }

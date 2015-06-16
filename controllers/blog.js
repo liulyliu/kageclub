@@ -55,7 +55,31 @@ exports.index = function(req, res, next) {
         });
     });
 }
-
+exports.article = function(req,res,next){
+    var article_id = req.params.article_id;
+    if(!article_id) {
+        return res.status(404).send('');
+    }
+    req.blog.getArticleById(article_id,function(err,article){
+        if(err) {
+            return res.status(500).send('');
+        } 
+        if(article) {
+            var blogMaster = req.blog.getBlogMaster();
+            article.visit_count ++;
+            article.save();
+            res.locals.blog = blogMaster.blog;
+            res.render('blog/article_detail',{
+                article : article,
+                user : req.blog.getVisitor(),
+                blogMaster : blogMaster,
+                blog : blogMaster.blog
+            }); 
+        } else {
+            return res.status(404).send('');
+        }
+    });
+}
 
 exports.create = function(req, res, next) {
     req.blog.getCateList(function(err, cates) {
@@ -74,7 +98,8 @@ exports.put = function(req, res, next) {
         theme: body.theme,
         tags: body.tags,
         cate_id: body.cate_id
-    }, function(err) {//TODO
-        next(err);
+    }, function(err,article) {//TODO
+        var blog_id = req.blog.getVisitor().blog._id
+        res.redirect('/blog/' + blog_id +'/article/' + article._id);
     });
 }
