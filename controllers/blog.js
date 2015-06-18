@@ -1,7 +1,9 @@
 var User = require('../proxy').User;
 var config = require('../config');
 
-exports.active = function(req, res, next) {
+
+
+exports.active = function(req, res, next) { //开通页
     var blog = req.blog;
     var visitor = blog.getVisitor();
     if (config.blog.adminOnly && !visitor.is_admin) {
@@ -20,7 +22,7 @@ exports.active = function(req, res, next) {
 }
 
 
-exports.putActive = function(req, res, next) {
+exports.putActive = function(req, res, next) {//开通post
     var body = req.body,
         blog = req.blog,visitor = blog.getVisitor();
     if (config.blog.adminOnly && !visitor.is_admin) {
@@ -43,63 +45,54 @@ exports.putActive = function(req, res, next) {
 
 
 
-exports.index = function(req, res, next) {
+exports.index = function(req, res, next) {//博主页
     var blog = req.blog;
     var blogMaster = req.blog.getBlogMaster();
+    blogMaster.blog.headpic = 'http://www.cmiku.com/thumbs/427e22d17955b0ff37727e5ac3f66da5';
     blog.getArticles([0, 10], function(err, blogList) {
         res.render('blog/index', {
-            user: req.blog.getVisitor(),
+            user: req.blog.getVisitor() ||{},
             blogMaster: blogMaster,
             blog: blogMaster.blog,
             blogList : blogList || {}
         });
     });
 }
-exports.article = function(req,res,next){
-    var article_id = req.params.article_id;
-    if(!article_id) {
-        return res.status(404).send('');
-    }
-    req.blog.getArticleById(article_id,function(err,article){
-        if(err) {
-            return res.status(500).send('');
-        } 
-        if(article) {
-            var blogMaster = req.blog.getBlogMaster();
-            article.visit_count ++;
-            article.save();
-            res.locals.blog = blogMaster.blog;
-            res.render('blog/article_detail',{
-                article : article,
-                user : req.blog.getVisitor(),
-                blogMaster : blogMaster,
-                blog : blogMaster.blog
-            }); 
-        } else {
-            return res.status(404).send('');
-        }
-    });
+
+
+
+exports.modify = function(req,res,next){//修改博客页
+
 }
 
-exports.create = function(req, res, next) {
-    req.blog.getCateList(function(err, cates) {
-        res.render('blog/edit', {
-            cates: cates
-        });
-    }, true);
+exports.putStat = function(req,res,next){ //冻结，解冻，审核等
+    
 }
 
-exports.put = function(req, res, next) {
-    var body = req.body;
 
-    req.blog.create({
-        title: body.title,
-        content: body.content,
-        theme: body.theme,
-        tags: body.tags,
-        cate_id: body.cate_id
-    }, function(err,article) {//TODO
-        var blog_id = req.blog.getVisitor().blog._id
-        res.redirect('/blog/' + blog_id +'/article/' + article._id);
-    });
+exports.like = function(req,res,next) { //加关注，取消关注
+    
+
+}
+
+
+exports.replyCreate = function(req ,res,next){ //给博主留言
+
+
+}
+
+
+exports.replyDel = function(req ,res,next){ //删除留言
+
+
+}
+
+exports.replyModify = function(req ,res,next){ //修改留言
+
+
+}
+
+exports.reqlyList = function(req,res,next){ //留言列表页
+
+
 }
