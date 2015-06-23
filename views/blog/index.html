@@ -2,9 +2,6 @@
 <%- partial('./sidebar') %>
 <div id='content'>
     <div class='panel'>
-    <div class='header'>
-      <span class='col_fade'>博文列表</span>
-    </div>
     <% if (typeof(blogList) !== 'undefined' && blogList.length > 0) { %>
     <%- partial('../blog/abstract', { collection: blogList, as: 'article' }) %>
     <div class='cell more'>
@@ -33,4 +30,6 @@
     <% } %>
   </div>
 </div>
-
+<input type="hidden" name="_csrf" value="<%= csrf%>">
+<script src="/public/libs/webuploader/webuploader.withoutimage.js"></script>
+<script src="/public/javascripts/blog.home.js"></script>

@@ -8,6 +8,9 @@ exports.getBlogCatesByAuthor_id = function (author_id, callback) {
   BlogCate.find({author_id: author_id}, callback);
 };
 
+exports.getBlogCateById = function(cate_id,callback){
+    BlogCate.findOne({_id : cate_id},callback);
+}
 exports.newAndSave = function (data, callback) {
   var blog_cate = new BlogCate();
   blog_cate.catename = data.catename;

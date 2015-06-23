@@ -109,6 +109,9 @@ BlogController.prototype.getCateList = function(callback, isVisitor) {
 }
 
 
+
+
+
 BlogController.prototype.getArticles = function(range, callback) { //获取博文
     var range = range || [0, this.config.pageSize || 10];
     var _this = this;
@@ -191,6 +194,29 @@ BlogController.prototype.create = function(data, callback) {
             callback && callback.apply(_this, arguments);
         });
     }
-}
+};
+
+
+BlogController.prototype.cateCreate =  function(data,callback){
+    var catename = validator.trim(data.catename);
+    var cateErr;
+    var _this =this;
+    if(catename === '') {
+       cateErr = '分类名称不能为空' 
+    } else if (caetname.length >20) {
+        cateErr = '分类名称太长了'
+    }
+    if(cateErr) {
+       return callback && callback.call(_this,cateErr); 
+    }
+    var visitor = _this.getVisitor();
+    BlogCate.newAndSave({
+        author_id : visitor._id,
+        catename : catename
+    },function(err,cate){
+       callback && callback.call(_this,arguments); 
+    });
+},
+
 
 exports.blog = new BlogController(config.blog);

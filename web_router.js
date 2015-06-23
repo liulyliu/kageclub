@@ -24,6 +24,9 @@ var github = require('./controllers/github');
 var search = require('./controllers/search');
 var thumb = require('./controllers/thumb');
 var blog = require('./controllers/blog');
+var blogCate = require('./controllers/blog_cate');
+var blogArticle = require('./controllers/blog_article');
+var blogReply = require('./controllers/blog_reply');
 //var sns = require('./sns/oauth2callback');
 var passport = require('passport');
 var configMiddleware = require('./middlewares/conf');
@@ -133,11 +136,12 @@ router.get('/thumbs',thumb.index);
 
 router.get('/blog/active',blogAuth.enableRequired,auth.userRequired,blog.active);
 router.post('/blog/active',blogAuth.enableRequired,auth.userRequired,blog.putActive);
+router.post('/blog/api/modify',blogAuth.enableRequired,auth.userRequired,blogAuth.authBlogStat,blog.modify);
     //blog.auth判断当前登录用刻是否开通了个人博客
-router.get('/blog/create',blogAuth.enableRequired,auth.userRequired,blogAuth.authBlogStat,blog.create);
-router.post('/blog/create',blogAuth.enableRequired,auth.userRequired,blogAuth.authBlogStat,blog.put);
+router.get('/blog/create',blogAuth.enableRequired,auth.userRequired,blogAuth.authBlogStat,blogArticle.create);
+router.post('/blog/create',blogAuth.enableRequired,auth.userRequired,blogAuth.authBlogStat,blogArticle.put);
 
-router.get('/blog/:blog_id/article/:article_id',blogAuth.enableRequired,blogAuth.authBlogMaster,blog.article); //他人的博客
+router.get('/blog/:blog_id/article/:article_id',blogAuth.enableRequired,blogAuth.authBlogMaster,blogArticle.article);
 router.get('/blog/:blog_id',blogAuth.enableRequired,blogAuth.authBlogMaster,blog.index); //他人的博客
 router.get('/blog',blogAuth.enableRequired,auth.userRequired,blogAuth.authBlogStat,blog.index); //自己的博客
 

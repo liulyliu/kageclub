@@ -1,4 +1,5 @@
 var User = require('../proxy').User;
+var BlogModel = require('../models').Blog;
 var config = require('../config');
 
 
@@ -48,7 +49,6 @@ exports.putActive = function(req, res, next) {//开通post
 exports.index = function(req, res, next) {//博主页
     var blog = req.blog;
     var blogMaster = req.blog.getBlogMaster();
-    blogMaster.blog.headpic = 'http://www.cmiku.com/thumbs/427e22d17955b0ff37727e5ac3f66da5';
     blog.getArticles([0, 10], function(err, blogList) {
         res.render('blog/index', {
             user: req.blog.getVisitor() ||{},
@@ -62,7 +62,21 @@ exports.index = function(req, res, next) {//博主页
 
 
 exports.modify = function(req,res,next){//修改博客页
+    var body = req.body;
+    var blog = req.blog.getVisitor().blog;
+    blog =  new BlogModel(blog);
+    if(body.headpic) {
+        blog.headpic = body.headpic; 
+    }
 
+
+
+    BlogModel.update({_id : blog._id},{$set : {headpic:body.headpic}},function(err,blog){
+     if(err) {
+            return res.send({code:'-100',res:[],msg:'err'});
+        }
+        res.send({code:'200',res:blog,msg:'succ'}) ;
+    });
 }
 
 exports.putStat = function(req,res,next){ //冻结，解冻，审核等
@@ -96,3 +110,6 @@ exports.reqlyList = function(req,res,next){ //留言列表页
 
 
 }
+
+
+function upadateBlog(blog,obj,callback)

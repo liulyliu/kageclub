@@ -123,6 +123,7 @@ _.extend(app.locals, {
 _.extend(app.locals, require('./common/render_helper'));
 app.use(function (req, res, next) {
   res.locals.csrf = req.csrfToken ? req.csrfToken() : '';
+  console.info(res.locals.csrf);
   next();
 });
 

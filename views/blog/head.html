@@ -1,6 +1,6 @@
-<div id="topbar" <%if (typeof(blog.topcss) != 'undefined') {%>style="<%=blog.topcss%>"<%}%>>
+<div id="topbar" >
     <div class="blog_info">
-        <div class="blog_blur"  style="background:url(/agent?url=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F56242c47628b7ee99f49807a55866bf2%3Fsize%3D120) left top no-repeat;background-size:cover"></div>
+        <div id="topblur" class="blog_blur"  style="background:url(<%=blog.headpic%>) center no-repeat;background-size:cover"></div>
         <div class="blog_avator">
             <div class="blog_avator_radius">
                 <img src="/agent?url=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F56242c47628b7ee99f49807a55866bf2%3Fsize%3D120" class="user_avatar" title="myluluy">
@@ -13,5 +13,8 @@
             <span class="blog_signature">——<%-escapeSignature(user.signature)%></span>
             <%}%>
         </div> 
+    </div>
+    <div id="topbg" class="blog_bg" <%if (typeof(blog.headpic) != 'undefined') {%>style="background: url(<%=blog.headpic%>) center no-repeat;background-size:cover;"<%}%> >
+        <%if(user._id && user._id === blogMaster._id){%><a href="#" class="blog-btn1" id="btn_change_headbg">更改封面图片</a><%}%>
     </div>
 </div>
