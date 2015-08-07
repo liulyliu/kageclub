@@ -1,0 +1,28 @@
+<%- partial('./head') %>
+<%- partial('./sidebar') %>
+<div id='content'>
+  <div class='panel'>
+    <div class='header article_header'>
+      <span class="article_full_title">
+
+
+        <%= article.title %>
+      </span>
+      <div class="action">
+      </div>
+      <div class="changes">
+        <span>
+          作者 <a href="/user/<%= blogMaster.loginname %>"><%= blogMaster.loginname %></a>
+        </span>
+        <span>
+          <%= article.visit_count %> 次浏览
+        </span>
+      </div>
+    </div>
+    <div class='inner article'>
+        <%= article.content%>
+    </div>
+  </div>
+</div>
+
+

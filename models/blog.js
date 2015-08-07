@@ -29,6 +29,9 @@ var BlogSchema = new Schema({
     customdomain : { //个性域名
         type:String
     },
+    facepic : {
+        type:String
+    },
     headpic : { //头图
         type:String
     },

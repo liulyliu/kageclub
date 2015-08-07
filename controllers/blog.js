@@ -50,6 +50,7 @@ exports.index = function(req, res, next) {//博主页
     var blog = req.blog;
     var blogMaster = req.blog.getBlogMaster();
     blog.getArticles([0, 10], function(err, blogList) {
+        blogMaster.
         res.render('blog/index', {
             user: req.blog.getVisitor() ||{},
             blogMaster: blogMaster,
@@ -64,14 +65,18 @@ exports.index = function(req, res, next) {//博主页
 exports.modify = function(req,res,next){//修改博客页
     var body = req.body;
     var blog = req.blog.getVisitor().blog;
+    var _body = {};
     blog =  new BlogModel(blog);
     if(body.headpic) {
-        blog.headpic = body.headpic; 
+        _body.headpic = body.headpic; 
+    }
+    
+    if(body.facepic) {
+        _body.facepic = blog.facepic; 
     }
 
 
-
-    BlogModel.update({_id : blog._id},{$set : {headpic:body.headpic}},function(err,blog){
+    BlogModel.update({_id : blog._id},{$set : _body},function(err,blog){
      if(err) {
             return res.send({code:'-100',res:[],msg:'err'});
         }
@@ -110,6 +115,3 @@ exports.reqlyList = function(req,res,next){ //留言列表页
 
 
 }
-
-
-function upadateBlog(blog,obj,callback)

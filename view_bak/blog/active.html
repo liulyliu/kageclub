@@ -1,0 +1,52 @@
+<div id='sidebar'>
+  <div class='panel'>
+    <div class='header'>
+        <span class='col_fade'>最新文章</span>
+    </div>
+    <div class='inner'>
+    </div>
+  </div>
+
+  <div class='panel'>
+    <div class='header'>
+      <span class='col_fade'>最热文章</span>
+    </div>
+    <div class='inner'>
+    暂无 
+    </div>
+  </div>
+
+  <div class='panel'>
+    <div class='header'>
+      <span class='col_fade'>最热用户</span>
+    </div>
+    <div class='inner'>
+    </div>
+  </div>
+</div>
+
+<div id='content'>
+  <div class='panel'>
+    <div class='header topic_header'>
+      <span class="topic_full_title">
+          <form id='create_blog_form' action='/blog/active' method='post'>
+          <fieldset>
+              <span class="tab-selector">开通<%- blogName%></span>
+            <textarea autofocus class='span9' id='blog_name' name='blog_name' rows='1' cols='10'
+            placeholder="请为您的<%- blogName%>起个名字"
+            /></textarea>
+
+            <input type='hidden' name='_csrf' value='<%= csrf %>'>
+            <input type="submit" class='span-primary submit_btn' data-loading-text="提交中"
+            value="提交">
+          </fieldset>
+        </form>
+
+      </span>
+      <div class="action">
+    </div>
+  </div>
+</div>
+
+
+

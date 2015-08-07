@@ -1,0 +1,35 @@
+<%- partial('./head') %>
+<%- partial('./sidebar') %>
+<div id='content'>
+    <div class='panel'>
+    <% if (typeof(blogList) !== 'undefined' && blogList.length > 0) { %>
+    <%- partial('../blog/abstract', { collection: blogList, as: 'article' }) %>
+    <div class='cell more'>
+      <a class='dark' href="/blog/list/<%= blog._id %>">查看更多»</a>
+    </div>
+    <% } else { %>
+    <div class='inner'>
+      <p>该用户还没有发表过文章</p>
+    </div>
+    <% } %>
+  </div>
+
+  <div class='panel'>
+    <div class='header'>
+      <span class='col_fade'>最近参与的话题</span>
+    </div>
+    <% if (typeof(recent_replies) !== 'undefined' && recent_replies.length > 0) { %>
+    <%- partial('../topic/abstract', { collection: recent_replies, as: 'topic' }) %>
+    <div class='cell more'>
+      <a class='dark' href="/user/<%= user.loginname %>/replies">查看更多»</a>
+    </div>
+    <% } else { %>
+    <div class='inner'>
+      <p>无话题</p>
+    </div>
+    <% } %>
+  </div>
+</div>
+<input type="hidden" name="_csrf" value="<%= csrf%>">
+<script src="/public/libs/webuploader/webuploader.withoutimage.js"></script>
+<script src="/public/javascripts/blog.home.js"></script>
